@@ -124,6 +124,33 @@ class AdminTest extends TestCase
         $this->assertDatabaseCount('produtos', 0);
     }
 
+    public function test_admin_envia_foto_ao_cadastrar_cupcake(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('uploads');
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)->post('/admin/cupcakes', $this->dadosProduto([
+            'imagem' => \Illuminate\Http\UploadedFile::fake()->image('cupcake.jpg', 600, 600),
+            'destaque' => '1',
+        ]))->assertRedirect(route('admin.produtos.index'));
+
+        $produto = Produto::where('nome', 'Cupcake Novo')->first();
+        $this->assertTrue($produto->destaque);
+        $this->assertStringStartsWith('uploads/produtos/', $produto->imagem);
+        \Illuminate\Support\Facades\Storage::disk('uploads')->assertExists(substr($produto->imagem, strlen('uploads/')));
+    }
+
+    public function test_arquivo_que_nao_e_imagem_e_rejeitado_no_cadastro(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)->post('/admin/cupcakes', $this->dadosProduto([
+            'imagem' => \Illuminate\Http\UploadedFile::fake()->create('documento.pdf', 100, 'application/pdf'),
+        ]))->assertSessionHasErrors('imagem');
+
+        $this->assertDatabaseCount('produtos', 0);
+    }
+
     public function test_admin_edita_e_desativa_cupcake(): void
     {
         $admin = User::factory()->admin()->create();
