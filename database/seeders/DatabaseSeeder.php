@@ -3,23 +3,23 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(ProdutoSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Contas de demonstração para testar o sistema (apenas ambiente de desenvolvimento).
+        User::updateOrCreate(
+            ['email' => 'admin@cupcakegourmet.test'],
+            ['name' => 'Administrador', 'telefone' => '83900000000', 'password' => '[senha-removida]', 'is_admin' => true],
+        );
+
+        User::updateOrCreate(
+            ['email' => 'cliente@cupcakegourmet.test'],
+            ['name' => 'Cliente Exemplo', 'telefone' => '83911111111', 'password' => '[senha-removida]'],
+        );
     }
 }
