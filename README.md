@@ -48,12 +48,10 @@ php artisan migrate --seed    # cria as tabelas, o cardápio e contas de demonst
 php artisan serve             # http://localhost:8000
 ```
 
-Contas de demonstração (criadas pelo seeder):
-
-| Perfil | E-mail | Senha |
-|---|---|---|
-| Administrador | admin@cupcakegourmet.test | [senha-removida] |
-| Cliente | cliente@cupcakegourmet.test | [senha-removida] |
+O seeder cria uma conta de administrador (`admin@cupcakegourmet.test`) e uma de cliente
+(`cliente@cupcakegourmet.test`). As senhas não ficam no código: defina `ADMIN_PASSWORD` e
+`CLIENTE_DEMO_PASSWORD` no `.env` antes de rodar o seeder ou, se deixar em branco, uma senha
+aleatória é gerada e exibida uma única vez no terminal.
 
 ## Testes automatizados
 
