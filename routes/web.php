@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\CardapioController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [CardapioController::class, 'index'])->name('cardapio.index');
+Route::get('/cupcakes/{produto}', [CardapioController::class, 'show'])->name('cardapio.show');
