@@ -12,13 +12,20 @@ class Produto extends Model
 
     protected $table = 'produtos';
 
-    protected $fillable = ['nome', 'descricao', 'sabor', 'preco', 'ativo'];
+    public const CATEGORIAS = [
+        'tradicionais' => 'Tradicionais',
+        'frutas' => 'Frutas',
+        'gourmet' => 'Gourmet',
+    ];
+
+    protected $fillable = ['nome', 'descricao', 'sabor', 'categoria', 'preco', 'imagem', 'ativo', 'destaque'];
 
     protected function casts(): array
     {
         return [
             'preco' => 'decimal:2',
             'ativo' => 'boolean',
+            'destaque' => 'boolean',
         ];
     }
 
@@ -26,6 +33,30 @@ class Produto extends Model
     public function scopeAtivos(Builder $query): Builder
     {
         return $query->where('ativo', true);
+    }
+
+    public function scopeDaCategoria(Builder $query, ?string $categoria): Builder
+    {
+        if ($categoria === null || ! array_key_exists($categoria, self::CATEGORIAS)) {
+            return $query;
+        }
+
+        return $query->where('categoria', $categoria);
+    }
+
+    public function rotuloCategoria(): string
+    {
+        return self::CATEGORIAS[$this->categoria] ?? ucfirst($this->categoria);
+    }
+
+    /** Endereço público da foto, ou null quando o cupcake ainda não tem imagem. */
+    public function urlImagem(): ?string
+    {
+        if (! $this->imagem) {
+            return null;
+        }
+
+        return asset($this->imagem);
     }
 
     public function scopeBusca(Builder $query, ?string $termo): Builder

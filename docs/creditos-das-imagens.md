@@ -14,7 +14,7 @@ mas fica registrada aqui em agradecimento aos fotógrafos.
 | `public/img/cupcakes/limao-siciliano.jpg` | Aleyna Yetkin | https://www.pexels.com/photo/37431709/ |
 | `public/img/cupcakes/frutas-do-bosque.jpg` | Valeria Boltneva | https://www.pexels.com/photo/7474208/ |
 | `public/img/cupcakes/red-velvet.jpg` | Rawan Ali | https://www.pexels.com/photo/28122543/ |
-| `public/img/cupcakes/caramelo-pipoca.jpg` | (ver página da foto) | https://www.pexels.com/photo/913134/ |
+| `public/img/cupcakes/caramelo-pipoca.jpg` | Jess Bailey Designs | https://www.pexels.com/photo/913134/ |
 | `public/img/cupcakes/pistache-crocante.jpg` | Abdelmoughit LAHBABI | https://www.pexels.com/photo/10584926/ |
 | `public/img/site/presente.jpg` | Pavel Danilyuk | https://www.pexels.com/photo/7180271/ |
 | `public/img/site/caixa.jpg` | James Collington | https://www.pexels.com/photo/30199170/ |
