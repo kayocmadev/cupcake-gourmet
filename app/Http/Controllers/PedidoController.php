@@ -36,7 +36,7 @@ class PedidoController extends Controller
         return view('pedidos.create', [
             'itens' => $this->carrinho->itens(),
             'subtotal' => $this->carrinho->subtotal(),
-            'taxa' => (float) config('loja.taxa_entrega'),
+            'taxa' => $this->carrinho->taxaEntrega(),
             'formasPagamento' => config('loja.formas_pagamento'),
         ]);
     }

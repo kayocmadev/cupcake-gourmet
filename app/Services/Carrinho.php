@@ -74,6 +74,25 @@ class Carrinho
         return round($this->itens()->sum('subtotal'), 2);
     }
 
+    /** Taxa de entrega do carrinho atual: zero quando o subtotal atinge o valor do frete grátis (RN06). */
+    public function taxaEntrega(): float
+    {
+        return $this->subtotal() >= (float) config('loja.frete_gratis_acima')
+            ? 0.0
+            : (float) config('loja.taxa_entrega');
+    }
+
+    /** Quanto falta para ganhar frete grátis; zero quando já ganhou. */
+    public function faltaParaFreteGratis(): float
+    {
+        return round(max(0, (float) config('loja.frete_gratis_acima') - $this->subtotal()), 2);
+    }
+
+    public function total(): float
+    {
+        return round($this->subtotal() + $this->taxaEntrega(), 2);
+    }
+
     public function quantidadeTotal(): int
     {
         return (int) $this->itens()->sum('quantidade');

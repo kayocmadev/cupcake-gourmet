@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Produto extends Model
 {
@@ -27,6 +28,11 @@ class Produto extends Model
             'ativo' => 'boolean',
             'destaque' => 'boolean',
         ];
+    }
+
+    public function itens(): HasMany
+    {
+        return $this->hasMany(ItemPedido::class);
     }
 
     /** Cupcakes que aparecem no cardápio (RN09). */

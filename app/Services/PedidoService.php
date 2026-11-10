@@ -28,7 +28,7 @@ class PedidoService
             throw new \DomainException('O carrinho está vazio.');
         }
 
-        $taxa = (float) config('loja.taxa_entrega');
+        $taxa = $this->carrinho->taxaEntrega();
 
         $pedido = DB::transaction(function () use ($cliente, $dados, $itens, $taxa) {
             $pedido = Pedido::create([

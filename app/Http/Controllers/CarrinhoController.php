@@ -19,7 +19,9 @@ class CarrinhoController extends Controller
         return view('carrinho.index', [
             'itens' => $this->carrinho->itens(),
             'subtotal' => $this->carrinho->subtotal(),
-            'taxa' => (float) config('loja.taxa_entrega'),
+            'taxa' => $this->carrinho->taxaEntrega(),
+            'faltaFreteGratis' => $this->carrinho->faltaParaFreteGratis(),
+            'freteGratisAcima' => (float) config('loja.frete_gratis_acima'),
         ]);
     }
 
