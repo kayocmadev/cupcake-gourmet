@@ -71,6 +71,7 @@ docs/
 ├── situacao-1-planejamento/   requisitos, UML, modelo de dados e dicionário, interface (IHC)
 ├── situacao-2-codigo/         manual de uso e arquitetura
 ├── situacao-3-testes/         plano e relatório de testes, formulário dos testadores, laudo de qualidade
+└── creditos-das-imagens.md    fotógrafos das imagens (Pexels, licença livre)
 ```
 
 O código-fonte fica na estrutura padrão do Laravel (`app/`, `routes/`, `resources/`, `database/`,
