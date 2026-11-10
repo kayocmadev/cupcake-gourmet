@@ -24,6 +24,6 @@ class Avaliacao extends Model
 
     public function urlCaptura(): ?string
     {
-        return $this->captura ? asset('storage/'.$this->captura) : null;
+        return $this->captura ? asset('uploads/'.$this->captura) : null;
     }
 }

@@ -30,6 +30,17 @@ return [
 
     'disks' => [
 
+        // Envios de arquivos (fotos de cupcakes e capturas de tela das avaliações).
+        // Ficam direto em public/uploads, o que dispensa o link simbólico do storage.
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('uploads'),
+            'url' => env('APP_URL', 'http://localhost').'/uploads',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
