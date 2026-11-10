@@ -485,3 +485,13 @@ dialog.janela::backdrop { background: rgba(43, 27, 26, .55); backdrop-filter: bl
     .botao-avaliar { padding: 14px; right: 14px; bottom: 14px; }
     .botao-avaliar .rotulo-botao { display: none; }
 }
+
+/* Linha do total sem "buracos" entre as colunas */
+.resumo dl { column-gap: 0; }
+.resumo dd { padding-left: 16px; }
+
+/* Ajustes finos do topo e da janela */
+.marca, .menu a, .menu button.link { white-space: nowrap; }
+.menu { flex-wrap: wrap; }
+dialog.janela { overflow: hidden; }
+@media (min-width: 860px) { .menu { gap: 4px 18px; } }
