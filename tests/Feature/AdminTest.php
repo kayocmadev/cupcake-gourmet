@@ -29,6 +29,7 @@ class AdminTest extends TestCase
         return array_merge([
             'nome' => 'Cupcake Novo',
             'sabor' => 'Coco',
+            'categoria' => 'gourmet',
             'descricao' => 'Massa de coco com cobertura cremosa.',
             'preco' => '9.50',
             'ativo' => '1',
@@ -112,7 +113,7 @@ class AdminTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)->post('/admin/cupcakes', [])
-            ->assertSessionHasErrors(['nome', 'sabor', 'descricao', 'preco']);
+            ->assertSessionHasErrors(['nome', 'sabor', 'categoria', 'descricao', 'preco']);
 
         $this->actingAs($admin)->post('/admin/cupcakes', $this->dadosProduto(['preco' => 'abc']))
             ->assertSessionHasErrors('preco');
