@@ -1,4 +1,5 @@
 @auth
+    <a href="{{ route('pedidos.index') }}">Meus pedidos</a>
     <span class="saudacao">Olá, {{ \Illuminate\Support\Str::of(auth()->user()->name)->before(' ') }}</span>
     <form method="POST" action="{{ route('sair') }}">
         @csrf

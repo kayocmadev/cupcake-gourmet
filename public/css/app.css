@@ -146,3 +146,6 @@ textarea { min-height: 80px; }
 .saudacao { color: var(--cinza); font-size: .9rem; }
 label.opcao { display: flex; gap: 8px; align-items: center; font-weight: 400; }
 label.opcao input { width: auto; }
+
+.resumo-itens { padding-left: 20px; }
+h1 .selo { font-size: .9rem; vertical-align: middle; }

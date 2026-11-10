@@ -59,7 +59,7 @@
 
         <p class="acoes" style="justify-content: flex-end; margin-top: 16px;">
             <a class="botao botao-secundario" href="{{ route('cardapio.index') }}">Continuar comprando</a>
-            <a class="botao" href="{{ url('/pedidos/novo') }}">Finalizar pedido</a>
+            <a class="botao" href="{{ route('pedidos.create') }}">Finalizar pedido</a>
         </p>
     @endif
 @endsection
