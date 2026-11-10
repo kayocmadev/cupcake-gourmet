@@ -21,6 +21,8 @@ flowchart LR
         UC8(Cancelar pedido)
         UC9(Atualizar status do pedido)
         UC10(Gerenciar cardápio)
+        UC11(Avaliar o site)
+        UC12(Consultar avaliações e exportar PDF)
     end
 
     V --- UC1
@@ -35,6 +37,9 @@ flowchart LR
     C --- UC8
     A --- UC9
     A --- UC10
+    A --- UC12
+    V --- UC11
+    C --- UC11
     UC6 -. inclui .-> UC5
     UC7 -. inclui .-> UC5
 ```
@@ -57,8 +62,12 @@ classDiagram
         +string nome
         +string descricao
         +string sabor
+        +string categoria
         +decimal preco
+        +string imagem
         +bool ativo
+        +bool destaque
+        +urlImagem() string
     }
     class Pedido {
         +int id
@@ -88,7 +97,20 @@ classDiagram
         +remover(produto)
         +itens()
         +subtotal() decimal
+        +taxaEntrega() decimal
+        +faltaParaFreteGratis() decimal
         +esvaziar()
+    }
+    class Avaliacao {
+        +int id
+        +string nome
+        +date data_teste
+        +string funcionou
+        +string nao_funcionou
+        +string nao_testado
+        +string sugestoes
+        +int nota
+        +string captura
     }
 
     User "1" --> "0..*" Pedido : faz

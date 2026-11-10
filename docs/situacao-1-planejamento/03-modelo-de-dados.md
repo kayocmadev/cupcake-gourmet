@@ -22,8 +22,18 @@ erDiagram
         bigint id PK
         string nome
         string sabor
+        string categoria
         decimal preco
+        string imagem
         boolean ativo
+        boolean destaque
+    }
+    AVALIACOES {
+        bigint id PK
+        string nome
+        date data_teste
+        int nota
+        string captura
     }
     PEDIDOS {
         bigint id PK
@@ -39,8 +49,9 @@ erDiagram
     }
 ```
 
-Entidades: **cliente/administrador** (`users`), **cupcake** (`produtos`), **pedido** (`pedidos`) e
-**item do pedido** (`itens_pedido`). Um cliente faz vários pedidos, um pedido tem um ou mais itens e
+Entidades: **cliente/administrador** (`users`), **cupcake** (`produtos`), **pedido** (`pedidos`),
+**item do pedido** (`itens_pedido`) e **avaliação do teste** (`avaliacoes`, sem relação com as
+demais, pois pode ser enviada por quem não tem conta). Um cliente faz vários pedidos, um pedido tem um ou mais itens e
 cada item refere-se a um cupcake. A relação entre pedido e cupcake é muitos-para-muitos e foi
 resolvida pela entidade associativa `itens_pedido`, que carrega a quantidade e o preço da compra.
 
@@ -49,9 +60,10 @@ resolvida pela entidade associativa `itens_pedido`, que carrega a quantidade e o
 Relações, com chave primária sublinhada pela notação `PK` e chaves estrangeiras `FK`:
 
 - `users` (**id** PK, name, email, telefone, password, is_admin, remember_token, created_at, updated_at)
-- `produtos` (**id** PK, nome, descricao, sabor, preco, ativo, created_at, updated_at)
+- `produtos` (**id** PK, nome, descricao, sabor, categoria, preco, imagem, ativo, destaque, created_at, updated_at)
 - `pedidos` (**id** PK, user_id FK → users, status, taxa_entrega, total, endereco_entrega, forma_pagamento, observacao, created_at, updated_at)
 - `itens_pedido` (**id** PK, pedido_id FK → pedidos, produto_id FK → produtos, quantidade, preco_unitario, created_at, updated_at)
+- `avaliacoes` (**id** PK, nome, data_teste, aparelho, funcionou, nao_funcionou, nao_testado, sugestoes, nota, captura, created_at, updated_at)
 
 **Verificação das formas normais**
 
@@ -95,12 +107,16 @@ CREATE TABLE produtos (
     nome        VARCHAR(100)    NOT NULL,
     descricao   TEXT            NOT NULL,
     sabor       VARCHAR(60)     NOT NULL,
+    categoria   VARCHAR(30)     NOT NULL DEFAULT 'tradicionais',
     preco       DECIMAL(8,2)    NOT NULL,
+    imagem      VARCHAR(255)    NULL,
     ativo       TINYINT(1)      NOT NULL DEFAULT 1,
+    destaque    TINYINT(1)      NOT NULL DEFAULT 0,
     created_at  TIMESTAMP       NULL,
     updated_at  TIMESTAMP       NULL,
     PRIMARY KEY (id),
-    KEY produtos_ativo_index (ativo)
+    KEY produtos_ativo_index (ativo),
+    KEY produtos_categoria_index (categoria)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE pedidos (
@@ -132,6 +148,23 @@ CREATE TABLE itens_pedido (
     UNIQUE KEY itens_pedido_pedido_produto_unique (pedido_id, produto_id),
     CONSTRAINT itens_pedido_pedido_id_foreign FOREIGN KEY (pedido_id) REFERENCES pedidos (id) ON DELETE CASCADE,
     CONSTRAINT itens_pedido_produto_id_foreign FOREIGN KEY (produto_id) REFERENCES produtos (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE avaliacoes (
+    id             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nome           VARCHAR(120)    NOT NULL,
+    data_teste     DATE            NOT NULL,
+    aparelho       VARCHAR(120)    NULL,
+    funcionou      TEXT            NULL,
+    nao_funcionou  TEXT            NULL,
+    nao_testado    TEXT            NULL,
+    sugestoes      TEXT            NULL,
+    nota           TINYINT UNSIGNED NULL,
+    captura        VARCHAR(255)    NULL,
+    created_at     TIMESTAMP       NULL,
+    updated_at     TIMESTAMP       NULL,
+    PRIMARY KEY (id),
+    KEY avaliacoes_created_at_index (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
@@ -170,7 +203,10 @@ Pontos do projeto físico:
 | descricao | TEXT | não | | Descrição do cupcake |
 | sabor | VARCHAR(60) | não | | Sabor principal (usado no filtro) |
 | preco | DECIMAL(8,2) | não | | Preço unitário atual, em reais |
+| categoria | VARCHAR(30) | não | tradicionais | tradicionais, frutas ou gourmet (filtro do cardápio, RF11) |
+| imagem | VARCHAR(255) | sim | | Caminho público da foto do cupcake |
 | ativo | TINYINT(1) | não | 1 | 1 = aparece no cardápio (RN09) |
+| destaque | TINYINT(1) | não | 0 | 1 = recebe a etiqueta "Mais pedido" e aparece na faixa da home |
 | created_at, updated_at | TIMESTAMP | sim | | Datas de criação e atualização |
 
 ### pedidos
@@ -196,6 +232,22 @@ Pontos do projeto físico:
 | produto_id | BIGINT UNSIGNED | não | | Cupcake comprado (FK → produtos.id) |
 | quantidade | SMALLINT UNSIGNED | não | | Quantidade, de 1 a 20 (RN04) |
 | preco_unitario | DECIMAL(8,2) | não | | Preço do cupcake na data da compra (RN05) |
+| created_at, updated_at | TIMESTAMP | sim | | Datas de criação e atualização |
+
+### avaliacoes
+
+| Coluna | Tipo | Nulo | Padrão | Descrição |
+|---|---|---|---|---|
+| id | BIGINT UNSIGNED | não | auto incremento | Identificador da avaliação (PK) |
+| nome | VARCHAR(120) | não | | Nome de quem testou |
+| data_teste | DATE | não | | Data do teste (não pode ser futura, RN10) |
+| aparelho | VARCHAR(120) | sim | | Aparelho e navegador usados |
+| funcionou | TEXT | sim | | O que foi testado e funcionou |
+| nao_funcionou | TEXT | sim | | O que foi testado e não funcionou, e o que corrigir |
+| nao_testado | TEXT | sim | | O que não foi testado e por quê |
+| sugestoes | TEXT | sim | | Sugestões de melhoria |
+| nota | TINYINT UNSIGNED | sim | | Nota geral de 1 a 5 |
+| captura | VARCHAR(255) | sim | | Caminho da captura de tela enviada |
 | created_at, updated_at | TIMESTAMP | sim | | Datas de criação e atualização |
 
 As tabelas `password_reset_tokens`, `sessions`, `cache`, `jobs` e afins vêm do próprio Laravel e

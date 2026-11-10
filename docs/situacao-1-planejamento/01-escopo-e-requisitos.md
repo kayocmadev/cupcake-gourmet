@@ -9,8 +9,8 @@ O **Cupcake Gourmet** é uma aplicação web responsiva (usada principalmente no
 cliente conhece o cardápio de cupcakes, monta o pedido e acompanha a entrega. A loja atualiza o
 andamento dos pedidos em um painel simples.
 
-Fora do escopo desta versão: pagamento online (o pagamento é combinado na entrega), cálculo de
-frete por distância, cupons e estoque.
+Fora do escopo desta versão: pagamento online (o pagamento é feito na entrega), cálculo de
+frete por distância, cupons e controle de estoque.
 
 ## 1.2 Revisão do que foi definido no PIT I
 
@@ -26,6 +26,7 @@ A tela **Home** é o ponto central da navegação e todas as demais telas permit
 
 Melhorias de escopo feitas nesta etapa (ciclo de melhoria contínua):
 
+- **categorias, fotos e destaque** no cardápio, **frete grátis** acima de um valor e **formulário de avaliação** dentro do próprio site, para facilitar o teste com usuários (Situação 3);
 - inclusão do **painel da loja** (perfil administrador), porque o acompanhamento só faz sentido se
   alguém atualizar o status do pedido;
 - definição de **regras de negócio** explícitas (seção 1.5);
@@ -45,7 +46,10 @@ Melhorias de escopo feitas nesta etapa (ciclo de melhoria contínua):
 | RF07 | Consultar os próprios pedidos e o andamento de cada um | Cliente |
 | RF08 | Cancelar um pedido que ainda não saiu para entrega | Cliente |
 | RF09 | Listar todos os pedidos e atualizar o status de cada um | Administrador |
-| RF10 | Cadastrar, editar e ativar/desativar cupcakes do cardápio | Administrador |
+| RF10 | Cadastrar, editar e ativar/desativar cupcakes do cardápio, com foto, categoria e marca de "mais pedido" | Administrador |
+| RF11 | Filtrar o cardápio por categoria (Tradicionais, Frutas, Gourmet) | Todos |
+| RF12 | Enviar a avaliação do teste do sistema (o que funcionou, o que falhou, sugestões, nota e captura de tela), sem precisar de conta | Todos |
+| RF13 | Consultar as avaliações recebidas e exportá-las em PDF | Administrador |
 
 ## 1.4 Requisitos não funcionais
 
@@ -68,10 +72,11 @@ Melhorias de escopo feitas nesta etapa (ciclo de melhoria contínua):
 | RN03 | Só é possível finalizar um pedido com o carrinho não vazio e o cliente autenticado |
 | RN04 | A quantidade de cada cupcake no carrinho vai de 1 a 20 |
 | RN05 | O preço do cupcake é copiado para o item do pedido no momento da compra, para que mudanças futuras no cardápio não alterem pedidos antigos |
-| RN06 | O total do pedido é a soma de quantidade × preço de cada item, mais a taxa de entrega fixa |
+| RN06 | O total do pedido é a soma de quantidade × preço de cada item, mais a taxa de entrega fixa de R$ 8,00. Pedidos com subtotal a partir de R$ 70,00 têm **frete grátis** (taxa zero) |
 | RN07 | O status do pedido segue a ordem: recebido, em preparo, saiu para entrega, entregue |
 | RN08 | O cliente só pode cancelar pedidos com status "recebido" ou "em preparo" |
 | RN09 | Cupcakes desativados não aparecem no cardápio nem podem ser adicionados ao carrinho |
+| RN10 | A avaliação do teste exige nome e data (não futura); a nota, quando informada, vai de 1 a 5; a captura de tela aceita só JPG, PNG ou WebP de até 4 MB |
 
 ## 1.6 Histórias de usuário
 
