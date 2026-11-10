@@ -142,3 +142,7 @@ textarea { min-height: 80px; }
     .tabela td { border: 0; padding: 4px 12px; text-align: left !important; }
     .tabela td[data-rotulo]::before { content: attr(data-rotulo) ": "; font-weight: 600; }
 }
+
+.saudacao { color: var(--cinza); font-size: .9rem; }
+label.opcao { display: flex; gap: 8px; align-items: center; font-weight: 400; }
+label.opcao input { width: auto; }
