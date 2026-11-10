@@ -14,6 +14,8 @@
         <nav class="menu" aria-label="Menu principal">
             <a href="{{ route('cardapio.index') }}">Cardápio</a>
             @include('layouts.menu-usuario')
+            @inject('carrinhoMenu', 'App\Services\Carrinho')
+            <a href="{{ route('carrinho.index') }}">Carrinho <span class="contador" aria-label="{{ $carrinhoMenu->quantidadeTotal() }} itens">{{ $carrinhoMenu->quantidadeTotal() }}</span></a>
         </nav>
     </header>
 

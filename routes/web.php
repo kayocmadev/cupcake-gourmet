@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardapioController;
+use App\Http\Controllers\CarrinhoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CardapioController::class, 'index'])->name('cardapio.index');
@@ -15,3 +16,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/sair', [AuthController::class, 'sair'])->middleware('auth')->name('sair');
+
+Route::get('/carrinho', [CarrinhoController::class, 'index'])->name('carrinho.index');
+Route::post('/carrinho/{produto}', [CarrinhoController::class, 'adicionar'])->name('carrinho.adicionar');
+Route::patch('/carrinho/{produto}', [CarrinhoController::class, 'atualizar'])->name('carrinho.atualizar');
+Route::delete('/carrinho/{produto}', [CarrinhoController::class, 'remover'])->name('carrinho.remover');
