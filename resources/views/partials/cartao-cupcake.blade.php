@@ -2,7 +2,7 @@
 <li class="cartao">
     <a class="cartao-foto" href="{{ route('cardapio.show', $produto) }}" tabindex="-1" aria-hidden="true">
         @if ($produto->urlImagem())
-            <img src="{{ $produto->urlImagem() }}" alt="" loading="lazy" width="600" height="600">
+            <img src="{{ $produto->urlImagem() }}" alt="{{ $produto->nome }}" loading="lazy" width="600" height="600">
         @else
             <div class="foto-vazia">🧁</div>
         @endif

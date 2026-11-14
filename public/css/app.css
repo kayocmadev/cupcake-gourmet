@@ -474,7 +474,8 @@ dialog.janela::backdrop { background: rgba(43, 27, 26, .55); backdrop-filter: bl
 }
 
 /* Botão dentro do menu mantém o texto branco */
-.menu a.botao, .menu a.botao:hover { color: #fff; padding: 8px 16px; }
+.menu a.botao { background: var(--framboesa); border: 2px solid var(--framboesa); color: #fff; padding: 8px 16px; }
+.menu a.botao:hover { background: var(--framboesa-escura); border-color: var(--framboesa-escura); color: #fff; }
 
 /* Rodapé do cartão sempre em uma linha: preço à esquerda, botão à direita */
 .cartao-rodape { flex-wrap: nowrap; }

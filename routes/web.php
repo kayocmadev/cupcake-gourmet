@@ -72,3 +72,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/cupcakes/{produto}/editar', [ProdutoAdminController::class, 'edit'])->name('produtos.edit');
     Route::put('/cupcakes/{produto}', [ProdutoAdminController::class, 'update'])->name('produtos.update');
 });
+
+// 404 dentro do grupo web: o cabeçalho reconhece o usuário logado
+Route::fallback(fn () => abort(404));
